@@ -721,6 +721,7 @@ void *client_handler(void *thread){
 								{
 									if(sendSuccess(socket, 1, "00", ID) == false) goto disconnect;
 									scoreClient(mysqlPtr, username, -1);
+									setupGame(roomID);
 									//reset game
 									break;
 								}
@@ -772,6 +773,7 @@ void *client_handler(void *thread){
 								{
 									if(sendSuccess(socket, 1, "00", ID) == false) goto disconnect;
 									scoreClient(mysqlPtr, username, -1);
+									setupGame(roomID);
 									//reset game
 									break;
 								}

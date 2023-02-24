@@ -7,8 +7,8 @@
 #include <pthread.h>
 
 #define BUFF_SIZE 1024
-extern pthread_mutex_t dbLock;
-extern MYSQL *mysqlPtr;
+pthread_mutex_t dbLock;
+MYSQL *mysqlPtr;
 void finish_with_error(MYSQL *databasePtr);
 int createNewClient(MYSQL *mysqlPtr, char *username, char *password, bool loginStatus);
 int loginClient(MYSQL *mysqlPtr, char *username, char *password);
