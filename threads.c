@@ -91,9 +91,7 @@ void createThreadClient(int client_socket, bool *threadCreationSuccess){
 	
 }
 
-void closeSocketAndDeleteThread(int client_socket, unsigned int ID, pthread_mutex_t *lock){
+void closeSocketAndDeleteThread(int client_socket, unsigned int ID){
 	close(client_socket);
-	
-	if(lock) pthread_mutex_destroy(lock);
 	deleteThisThread(ID);
 }

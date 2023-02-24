@@ -7,7 +7,6 @@
 #include <ctype.h>
 
 #include "clients.h"
-#include "threads.h"
 
 //Remember to use -pthread when compiling this server's source code
 
@@ -23,10 +22,29 @@ int main()
 
 	printf("\033[0;31m"); //print red text 
 
-	if (pthread_mutex_init(&lock1, NULL) != 0 || pthread_mutex_init(&lock2, NULL) != 0  || pthread_mutex_init(&roomListLock, NULL) != 0) {
+	if (pthread_mutex_init(&lock1, NULL) != 0 || pthread_mutex_init(&lock2, NULL) != 0  || 
+		pthread_mutex_init(&roomListLock, NULL) != 0 || pthread_mutex_init(&dbLock, NULL) != 0 ||
+		pthread_mutex_init(&clientStatusListLock, NULL) != 0)
+		{
+			
         puts("Mutex init has failed");
         exit(EXIT_FAILURE);
-    }
+    	}
+
+	mysqlPtr = mysql_init(NULL);
+	 if (!mysqlPtr)
+  	{
+      fprintf(stderr, "%s\n", mysql_error(mysqlPtr));
+      exit(1);
+  	}
+
+  	if (mysql_real_connect(mysqlPtr, "localhost", "huy", "123456",
+          "baitienlen", 0, NULL, 0) == NULL)
+  	{
+      fprintf(stderr, "%s\n", mysql_error(mysqlPtr));
+	  mysql_close(mysqlPtr);
+      exit(1);
+  	}
 
 	int server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket==-1){
@@ -84,6 +102,9 @@ int main()
 	pthread_mutex_destroy(&lock1);
 	pthread_mutex_destroy(&lock2);
 	pthread_mutex_destroy(&roomListLock);
+	pthread_mutex_destroy(&dbLock);
+	pthread_mutex_destroy(&clientStatusListLock);
+	mysql_close(mysqlPtr);
     return 0;
 }
 
