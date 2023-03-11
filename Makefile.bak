@@ -7,7 +7,6 @@ withMySQL = `mysql_config --cflags --libs`
 
 makeFiles: $(Req)
 	gcc $(ServCode) -o $(Serv) $(withThread) $(withMySQL)
-	echo "Su dung cong 8000"
 
 clean: $(Target)
 	rm -f $(Target)
